@@ -19,6 +19,10 @@ window.onload = function () {
             tile.src = imgOrder.shift() + ".jpg";
             tile.className = "tile";
             tile.draggable = true;
+            //touch
+            tile.addEventListener("touchstart", touchStart);
+            tile.addEventListener("touchmove", touchMove);
+            tile.addEventListener("touchend", touchEnd);
 
             // DRAG FUNCTIONALITY
             tile.addEventListener("dragstart", dragStart);  //click an image to drag
@@ -67,7 +71,7 @@ function dragDrop(e) {
 
     currTileElement.src = otherImg;
     otherTileElement.src = currImg;
-   
+
     turns += 1;
     document.getElementById("turns").innerText = turns;
 
@@ -76,6 +80,34 @@ function dragDrop(e) {
 function dragEnd() {
 
 }
+function touchStart(e) {
+    currTile = this;
+    e.preventDefault(); // Prevent default touch behavior
+}
+
+function touchMove(e) {
+    e.preventDefault();
+    // Implement touch move logic here
+}
+
+function touchEnd(e) {
+    otherTile = this;
+    const currTileId = currTile.id;
+    const currTileElement = currTile;
+    const otherTileId = otherTile.id;
+    const otherTileElement = otherTile;
+
+    // Swap the tiles (similar to dragDrop)
+    let currImg = currTileElement.src;
+    let otherImg = otherTileElement.src;
+
+    currTileElement.src = otherImg;
+    otherTileElement.src = currImg;
+
+    turns += 1;
+    document.getElementById("turns").innerText = turns;
+}
+
 
 
 
@@ -89,7 +121,7 @@ function dragEnd() {
 function showAlert() {
     Swal.fire({
         title: 'المرحلة الأولى',
-        text: 'عزيزتي عليكي بتركيب الصورة التي تدل على إحدى صفات الرسول الأكرم (ص) بأقل عدد من محاولات التحريك. ى',
+        text: 'عزيزتي عليكي بتركيب الصورة التي تدل على إحدى صفات الرسول الأكرم (ص) بأقل عدد من محاولات التحريك',
 
         confirmButtonText: 'تم'
     });
