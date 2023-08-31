@@ -87,30 +87,43 @@ function touchStart(e) {
 
 function touchMove(e) {
     e.preventDefault();
-    // Implement touch move logic here
+
+    if (currTile) {
+        // Get touch position relative to the current tile
+        const touch = e.touches[0];
+        const rect = currTile.getBoundingClientRect();
+        const touchX = touch.clientX - rect.left;
+        const touchY = touch.clientY - rect.top;
+
+        // Check if the touch is within the bounds of the current tile
+        if (
+            touchX >= 0 &&
+            touchX <= currTile.clientWidth &&
+            touchY >= 0 &&
+            touchY <= currTile.clientHeight
+        ) {
+            // Swap tiles
+            swapTiles(currTile, otherTile);
+        }
+    }
 }
 
 function touchEnd(e) {
-    otherTile = this;
-    const currTileId = currTile.id;
-    const currTileElement = currTile;
-    const otherTileId = otherTile.id;
-    const otherTileElement = otherTile;
-
-    // Swap the tiles (similar to dragDrop)
-    let currImg = currTileElement.src;
-    let otherImg = otherTileElement.src;
-
-    currTileElement.src = otherImg;
-    otherTileElement.src = currImg;
-
-    turns += 1;
-    document.getElementById("turns").innerText = turns;
+    currTile = null;
 }
 
+function swapTiles(tile1, tile2) {
+    if (tile1 && tile2) {
+        let img1 = tile1.src;
+        let img2 = tile2.src;
 
+        tile1.src = img2;
+        tile2.src = img1;
 
-
+        turns += 1;
+        document.getElementById("turns").innerText = turns;
+    }
+}
 
 
 
