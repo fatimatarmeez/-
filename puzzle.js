@@ -89,22 +89,11 @@ function touchMove(e) {
     e.preventDefault();
 
     if (currTile) {
-        // Get touch position relative to the current tile
-        const touch = e.touches[0];
-        const rect = currTile.getBoundingClientRect();
-        const touchX = touch.clientX - rect.left;
-        const touchY = touch.clientY - rect.top;
 
-        // Check if the touch is within the bounds of the current tile
-        if (
-            touchX >= 0 &&
-            touchX <= currTile.clientWidth &&
-            touchY >= 0 &&
-            touchY <= currTile.clientHeight
-        ) {
-            // Swap tiles
-            swapTiles(currTile, otherTile);
-        }
+
+        // Swap tiles
+        swapTiles(currTile, otherTile);
+
     }
 }
 
