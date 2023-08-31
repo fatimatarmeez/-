@@ -7,17 +7,18 @@ var otherTile; //blank tile
 var turns = 0;
 
 var imgOrder = ["4", "2", "8", "5", "1", "6", "7", "9", "3"];
+var winOrder = [...imgOrder].sort();
 
 window.onload = function () {
 
     for (let r = 0; r < rows; r++) {
         for (let c = 0; c < columns; c++) {
-
             let tile = document.createElement("img");
 
-            tile.id = r.toString() + "-" + c.toString();
+            tile.id = "tile-" + r.toString() + "-" + c.toString();
             tile.src = imgOrder.shift() + ".jpg";
             tile.className = "tile";
+            tile.draggable = true;
             tile.draggable = true;
             //touch
             tile.addEventListener("touchstart", touchStart);
@@ -54,6 +55,9 @@ function dragLeave() {
 
 }
 
+
+
+
 function dragDrop(e) {
     otherTile = this; //this refers to the img tile being dropped on
     const currTileId = e.dataTransfer.getData("text/plain");
@@ -74,9 +78,8 @@ function dragDrop(e) {
 
     turns += 1;
     document.getElementById("turns").innerText = turns;
-
+    checkWin();
 }
-
 function dragEnd() {
 
 }
@@ -87,7 +90,7 @@ function touchStart(e) {
 
 function touchMove(e) {
     e.preventDefault();
-    // Add your touch move logic here if needed
+
 }
 
 function touchEnd(e) {
@@ -100,19 +103,58 @@ function touchEnd(e) {
         currTile.src = otherImg;
         otherTile.src = currImg;
 
+
         turns += 1;
         document.getElementById("turns").innerText = turns;
     }
-    currTile = null;
-    otherTile = null;
+
+
+    currTileElement.src = otherImg;
+    otherTileElement.src = currImg;
+
+    turns += 1;
+    document.getElementById("turns").innerText = turns;
+    checkWin();
+
 }
+
+function checkWin() {
+    var currentOrder = [];
+    for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < columns; c++) {
+            let tileId = "tile-" + r.toString() + "-" + c.toString();
+            let tileElement = document.getElementById(tileId);
+            let imgIndex = parseInt(tileElement.src.charAt(tileElement.src.length - 5));
+
+            currentOrder.push(imgIndex.toString());
+        }
+    }
+
+    if (currentOrder.join("") === winOrder.join("")) {
+        // Display a win message or perform any other win-related actions
+        showAlertWin();
+    }
+}
+
+function showAlertWin() {
+    winAudio.play();
+    Swal.fire({
+        title: 'الصفة الأولى: الرحمة / رحمت',
+        text: '{وَمَا أَرْسَلْنَاكَ إِلَّا رَحْمَةً لِلْعَالَمِينَ}',
+        icon: 'success',
+        confirmButtonText: 'المرحلة الثانية'
+    });
+}
+
+
+
 
 
 
 function showAlert() {
     Swal.fire({
         title: 'المرحلة الأولى',
-        text: 'عزيزتي عليكي بتركيب الصورة التي تدل على إحدى صفات الرسول الأكرم (ص) بأقل عدد من محاولات التحريك',
+        text: 'عزيزتي عليك ِ بتركيب الصورة التي تدل على إحدى صفات الرسول الأكرم (ص) بأقل عدد من محاولات التحريك',
 
         confirmButtonText: 'تم'
     });
