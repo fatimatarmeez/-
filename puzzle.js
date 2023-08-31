@@ -88,13 +88,13 @@ function touchStart(e) {
 function touchMove(e) {
     e.preventDefault();
 
-    if (currTile) {
 
 
-        // Swap tiles
-        swapTiles(currTile, otherTile);
 
-    }
+    // Swap tiles
+    swapTiles(currTile, otherTile);
+
+
 }
 
 function touchEnd(e) {
