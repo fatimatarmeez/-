@@ -81,42 +81,31 @@ function dragEnd() {
 
 }
 function touchStart(e) {
+    e.preventDefault();
     currTile = this;
-    e.preventDefault(); // Prevent default touch behavior
 }
 
 function touchMove(e) {
     e.preventDefault();
-
-
-
-
-    // Swap tiles
-    swapTiles(currTile, otherTile);
-
-
+    // Add your touch move logic here if needed
 }
 
 function touchEnd(e) {
-    currTile = null;
-}
+    e.preventDefault();
+    if (currTile && otherTile && currTile !== otherTile) {
+        // Swap the tiles
+        let currImg = currTile.src;
+        let otherImg = otherTile.src;
 
-function swapTiles(tile1, tile2) {
-    if (tile1 && tile2) {
-        let img1 = tile1.src;
-        let img2 = tile2.src;
-
-        tile1.src = img2;
-        tile2.src = img1;
+        currTile.src = otherImg;
+        otherTile.src = currImg;
 
         turns += 1;
         document.getElementById("turns").innerText = turns;
     }
+    currTile = null;
+    otherTile = null;
 }
-
-
-
-
 
 
 
