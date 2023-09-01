@@ -19,7 +19,7 @@ window.onload = function () {
             tile.src = imgOrder.shift() + ".jpg";
             tile.className = "tile";
             tile.draggable = true;
-            tile.draggable = true;
+
             //touch
             tile.addEventListener("touchstart", touchStart);
             tile.addEventListener("touchmove", touchMove);
@@ -84,8 +84,9 @@ function dragEnd() {
 
 }
 function touchStart(e) {
-    e.preventDefault();
+
     currTile = this;
+    e.preventDefault();
 }
 
 function touchMove(e) {
@@ -94,20 +95,15 @@ function touchMove(e) {
 }
 
 function touchEnd(e) {
-    e.preventDefault();
-    if (currTile && otherTile && currTile !== otherTile) {
-        // Swap the tiles
-        let currImg = currTile.src;
-        let otherImg = otherTile.src;
+    otherTile = this;
+    const currTileId = currTile.id;
+    const currTileElement = currTile;
+    const otherTileId = otherTile.id;
+    const otherTileElement = otherTile;
 
-        currTile.src = otherImg;
-        otherTile.src = currImg;
-
-
-        turns += 1;
-        document.getElementById("turns").innerText = turns;
-    }
-
+    // Swap the tiles (similar to dragDrop)
+    let currImg = currTileElement.src;
+    let otherImg = otherTileElement.src;
 
     currTileElement.src = otherImg;
     otherTileElement.src = currImg;
@@ -115,8 +111,8 @@ function touchEnd(e) {
     turns += 1;
     document.getElementById("turns").innerText = turns;
     checkWin();
-
 }
+
 
 function checkWin() {
     var currentOrder = [];
